@@ -1,0 +1,84 @@
+<!doctype html>
+<html ng-app="todo">
+
+<head>
+	<meta charset="utf-8">
+	<title>TDC Todo OAuth2 Client</title>
+	<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="oauth-blue-button.css" rel="stylesheet">
+</head>
+
+<body ng-controller="todoController">
+	<div class="container theme-showcase">
+		<div class="jumbotron">
+			<h1>TDC Todo OAuth2 Client</h1>
+		</div>
+
+		<oauth 
+			site="https://localhost/AuthServer/todoApi" 
+			client-id="todoClient" 
+			redirect-uri="https://localhost/todoweb/" 
+			profile-uri="https://localhost/TodoApi/api/identity" 
+			scope="read post">
+		</oauth>
+
+		<h1>Access token</h1>
+		<p>{{accessToken}}</p>
+		<h1>Decoded token</h1>
+		<p ng-bind-html="decodedToken"></p>
+
+		<h1>Claims</h1>
+		<button ng-click="getProfile()">Get claims</button>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Claim</th>
+					<th>Value</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="claim in profile">
+					<td>
+						{{claim.Type}}
+					</td>
+					<td>
+						{{claim.Value}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<h1>Todos</h1>
+		<button ng-click="getTodos()">Get todos</button>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Todo</th>
+					<th>Created by</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="todo in todos">
+					<td>
+						{{todo.Text}}
+					</td>
+					<td>
+						{{todo.Owner}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<form>
+			<input type="text" id="todo" ng-model="todo">
+			<button ng-click="postTodo()">New todo</button>
+		</form>
+	</div>
+
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/ngstorage/ngStorage.js"></script>
+	<script src="bower_components/oauth-ng/dist/oauth-ng.js"></script>
+	<script src="scripts/app.js"></script>
+</body>
+
+</html>
