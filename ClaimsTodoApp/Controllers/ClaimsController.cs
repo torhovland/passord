@@ -13,8 +13,8 @@ namespace ClaimsTodoApp.Controllers
     {
         public ActionResult Index()
         {
-            var identity = User.Identity as ClaimsIdentity;
-            return View(identity.Claims);
+            var principal = User as ClaimsPrincipal;
+            return View(principal.Claims);
         }
     }
 }
